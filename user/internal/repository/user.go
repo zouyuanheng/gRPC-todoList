@@ -9,19 +9,18 @@ import (
 )
 
 type User struct {
-	UserID         uint      `gorm:"primarykey"`
-	UserName       string    `gorm:"unique"`
-	NickName       string
+	UserID         uint   `gorm:"primarykey"`
+	UserName       string `gorm:"unique"`
+	NickName       string `gorm:"not null"`
 	PasswordDigest string
 }
-
 
 const (
 	PassWordCost = 12 // 密码加密难度
 )
 
 // 加密密码
-func (user *User) SetPassword (password string) error {
+func (user *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
 	if err != nil {
 		return err
@@ -37,25 +36,24 @@ func (user *User) CheckPassword(password string) bool {
 }
 
 func (user *User) CheckUserExist(req *service.UserRequest) bool {
-	if err := DB.Where("user_name=?", req.UserName).First(&user).Error;
-		err == gorm.ErrRecordNotFound {
+	if err := DB.Where("user_name=?", req.UserName).First(&user).Error; err == gorm.ErrRecordNotFound {
 		return false
 	}
 	return true
 }
 
-func (user *User) ShowUserInfo (req *service.UserRequest)(err error) {
+func (user *User) ShowUserInfo(req *service.UserRequest) (err error) {
 	if exist := user.CheckUserExist(req); exist {
 		return nil
 	}
 	return errors.New("UserName Not Exist")
 }
 
-func (*User) Create (req *service.UserRequest) error {
+func (*User) Create(req *service.UserRequest) error {
 	var user User
 	var count int64
 	DB.Where("user_name=?", req.UserName).Count(&count)
-	if count!=0 {
+	if count != 0 {
 		return errors.New("UserName Exist")
 	}
 	user = User{

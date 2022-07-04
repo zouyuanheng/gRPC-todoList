@@ -10,8 +10,8 @@ import (
 
 type User struct {
 	UserID         uint   `gorm:"primarykey"`
-	UserName       string `gorm:"unique;not null"`
-	NickName       string
+	UserName       string `gorm:"unique"`
+	NickName       string `gorm:"not null"`
 	PasswordDigest string
 }
 

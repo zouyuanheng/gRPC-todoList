@@ -7,33 +7,88 @@ import (
 	"testing"
 )
 
-func TestGetAccountWrongPath(t *testing.T) {
-	r := gorequest.New()
-	var UserName = "2"
-	resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(
-		map[string]string{
-			"a": UserName,
-			"b": "1",
-		},
-	).End()
-	if errs != nil {
-		fmt.Println(errs)
-	}
-
-	Convey("测试登陆", t, func() {
-		UserName = "1"
+//
+func TestHttp(t *testing.T) {
+	Convey("参数“a”和参数“b”传的值都正确", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{
+			"a": 2,
+			"b": "2"}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
 		resp.Body.Close()
 
-		Convey("正确的code", func() {
-			So(body, ShouldEqual, "{\"code\":404,\"msg\":\"userService--rpc error: code = Unknown desc = Error 1062: Duplicate entry '1' for key 'user.user_name'\"}")
-
-		})
-
-		UserName = "1"
-		resp.Body.Close()
-		Convey("错误的code", func() {
-			So(body, ShouldEqual, "{\"cod1e\":404,\"msg\":\"userService--rpc error: code = Unknown desc = Error 1062: Duplicate entry '1' for key 'user.user_name'\"}")
-
-		})
+		So(body, ShouldContainSubstring, "success")
 	})
+	Convey("参数“a“传字符串", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{
+			"a": "2",
+			"b": "2"}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "json: cannot unmarshal string into Go struct field RegisterRequest.A of type int")
+	})
+	Convey("参数“b“传整型", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{
+			"a": 2,
+			"b": 2}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "json: cannot unmarshal number into Go struct field RegisterRequest.B of type string")
+	})
+	Convey("参数“b”没有填值", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{
+			"a": 2,
+		}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "Key: 'RegisterRequest.B' Error:Field validation for 'B' failed on the 'required' tag")
+	})
+	Convey("参数“a”没有填值", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{
+			"b": "2",
+		}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "success")
+	})
+	Convey("参数“a”和参数“b”传的值都为空", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{"c": 2}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "Key: 'RegisterRequest.B' Error:Field validation for 'B' failed on the 'required' tag")
+	})
+
+	Convey("错误的测试案例", t, func() {
+		r := gorequest.New()
+		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{"c": 2}).End()
+		if errs != nil {
+			fmt.Println(errs)
+		}
+		resp.Body.Close()
+
+		So(body, ShouldContainSubstring, "success")
+	})
+
 }

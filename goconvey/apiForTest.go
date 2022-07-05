@@ -1,4 +1,4 @@
-package goconvey
+package main
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 )
 
 type RegisterRequest struct {
-	A int    `json:"a" binding:"-"`
-	B string `json:"b" binding:"required"`
+	A int    `form:"a" binding:"-"`
+	B string `from:"b" binding:"required"`
 }
 
 func main() {
@@ -26,7 +26,7 @@ func Register(c *gin.Context) {
 	err := c.ShouldBindJSON(&r)
 	if err != nil {
 		fmt.Println("register failed")
-		c.JSON(http.StatusOK, gin.H{"errir_code": 21,
+		c.JSON(http.StatusOK, gin.H{"error_code": 21,
 			"message":   "empty or wriong params",
 			"reference": err.Error()})
 		return

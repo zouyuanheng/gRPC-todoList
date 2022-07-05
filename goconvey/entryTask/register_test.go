@@ -10,12 +10,10 @@ import (
 func TestGetAccountWrongPath(t *testing.T) {
 	r := gorequest.New()
 	var UserName = "2"
-	resp, body, errs := r.Post("http://127.0.0.1:4000/api/v1/user/register").Send(
+	resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(
 		map[string]string{
-			"UserName":        UserName,
-			"NickName":        "1",
-			"password":        "12345678",
-			"PasswordConfirm": "12345678",
+			"a": UserName,
+			"b": "1",
 		},
 	).End()
 	if errs != nil {

@@ -13,6 +13,7 @@ var MsgFlags = map[uint]string{
 	ErrorNotCompare:            "不匹配",
 	ErrorDatabase:              "数据库操作出错,请重试",
 	ErrorAuthNotFound:          "Token不能为空",
+	EmptyOrWrongParams:         "不能为空",
 }
 
 // GetMsg 获取状态码对应信息

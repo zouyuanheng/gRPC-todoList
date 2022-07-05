@@ -8,7 +8,7 @@ import (
 type Task struct {
 	TaskID    uint `gorm:"primarykey"` // 收藏夹id
 	UserID    uint `gorm:"index"`      // 用户id
-	Status    int  `gorm:"default:0"`
+	Status    int
 	Title     string
 	Content   string `gorm:"type:longtext"`
 	StartTime int64
@@ -36,6 +36,7 @@ func (*Task) Create(req *service.TaskRequest) error {
 		util.LogrusObj.Error("Insert Task Error:" + err.Error())
 		return err
 	}
+
 	return nil
 }
 

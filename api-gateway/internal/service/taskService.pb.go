@@ -32,7 +32,7 @@ type TaskRequest struct {
 	TaskID    uint32 `protobuf:"varint,1,opt,name=TaskID,proto3" json:"TaskID,omitempty"`
 	UserID    uint32 `protobuf:"varint,2,opt,name=UserID,proto3" json:"UserID,omitempty"`
 	Status    uint32 `protobuf:"varint,3,opt,name=Status,proto3" json:"Status,omitempty"`
-	Title     string `protobuf:"bytes,4,opt,name=Title,proto3" json:"Title,omitempty"`
+	Title     string `protobuf:"bytes,4,opt,name=Title,proto3" json:"Title,omitempty" must:"true"`
 	Content   string `protobuf:"bytes,5,opt,name=Content,proto3" json:"Content,omitempty"`
 	StartTime uint32 `protobuf:"varint,6,opt,name=StartTime,proto3" json:"StartTime,omitempty"`
 	EndTime   uint32 `protobuf:"varint,7,opt,name=EndTime,proto3" json:"EndTime,omitempty"`

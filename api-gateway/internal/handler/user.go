@@ -6,21 +6,19 @@ import (
 	"api-gateway/pkg/res"
 	"api-gateway/pkg/util"
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"net/http"
 )
 
 type RegisterRequest struct {
-	UserName        int    `form:"UserName" binding:"required"`
+	UserName        string `form:"UserName" binding:"required"`
 	NickName        string `form:"NickName" binding:"required"`
 	Password        string `form:"Password" binding:"required"`
 	PasswordConfirm string `form:"PasswordConfirm" binding:"required"`
 }
 
 // 用户注册
-/*func UserRegister(ginCtx *gin.Context) {
+func UserRegister(ginCtx *gin.Context) {
 	var userReq service.UserRequest
 	PanicIfUserError(ginCtx.Bind(&userReq))
 	// 从gin.Key中取出服务实例
@@ -34,9 +32,8 @@ type RegisterRequest struct {
 	}
 	ginCtx.JSON(http.StatusOK, r)
 }
-*/
 
-func UserRegister(ginCtx *gin.Context) {
+/*func UserRegister(ginCtx *gin.Context) {
 	var userReq service.UserRequest
 	PanicIfUserError(ginCtx.ShouldBindBodyWith(&userReq, binding.JSON))
 	var r RegisterRequest
@@ -54,7 +51,7 @@ func UserRegister(ginCtx *gin.Context) {
 		"message":   "success",
 		"reference": "ok"})
 
-}
+}*/
 
 // 用户登录
 func UserLogin(ginCtx *gin.Context) {

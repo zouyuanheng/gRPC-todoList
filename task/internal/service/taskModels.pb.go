@@ -32,7 +32,7 @@ type TaskModel struct {
 	// @inject_tag: json:"status"
 	Status uint32 `protobuf:"varint,3,opt,name=Status,proto3" json:"Status,omitempty"`
 	// @inject_tag: json:"title"
-	Title string `protobuf:"bytes,4,opt,name=Title,proto3" json:"Title,omitempty"`
+	Title string `protobuf:"bytes,4,opt,name=Title,proto3" json:"Title,omitempty"must:"true"`
 	// @inject_tag: json:"content"
 	Content string `protobuf:"bytes,5,opt,name=Content,proto3" json:"Content,omitempty"`
 	// @inject_tag: json:"start_time"

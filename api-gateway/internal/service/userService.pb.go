@@ -32,7 +32,7 @@ type UserRequest struct {
 	// @inject_tag: json:"nick_name" form:"nick_name" uri:"nick_name"
 	NickName string `protobuf:"bytes,1,opt,name=NickName,proto3" json:"NickName,omitempty"`
 	// @inject_tag: json:"user_name" form:"user_name" uri:"user_name"
-	UserName int `protobuf:"bytes,2,opt,name=UserName,proto3" json:"UserName,omitempty"`
+	UserName string `protobuf:"bytes,2,opt,name=UserName,proto3" json:"UserName,omitempty"`
 	// @inject_tag: json:"password" form:"password" uri:"password"
 	Password string `protobuf:"bytes,3,opt,name=Password,proto3" json:"Password,omitempty"`
 	// @inject_tag: json:"password_confirm" form:"password_confirm" uri:"password_confirm"

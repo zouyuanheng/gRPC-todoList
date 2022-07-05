@@ -1,4 +1,4 @@
-package entryTask
+package task
 
 import (
 	"fmt"
@@ -80,7 +80,7 @@ func TestHttp(t *testing.T) {
 		So(body, ShouldContainSubstring, "Key: 'RegisterRequest.B' Error:Field validation for 'B' failed on the 'required' tag")
 	})
 
-	Convey("错误的测试案例", t, func() {
+	Convey("执行失败的测试案例", t, func() {
 		r := gorequest.New()
 		resp, body, errs := r.Post("http://127.0.0.1:9999/register").Send(map[string]interface{}{"c": 2}).End()
 		if errs != nil {

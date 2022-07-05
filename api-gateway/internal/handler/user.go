@@ -6,12 +6,21 @@ import (
 	"api-gateway/pkg/res"
 	"api-gateway/pkg/util"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
 )
 
+type RegisterRequest struct {
+	UserName        int    `form:"UserName" binding:"required"`
+	NickName        string `form:"NickName" binding:"required"`
+	Password        string `form:"Password" binding:"required"`
+	PasswordConfirm string `form:"PasswordConfirm" binding:"required"`
+}
+
 // 用户注册
-func UserRegister(ginCtx *gin.Context) {
+/*func UserRegister(ginCtx *gin.Context) {
 	var userReq service.UserRequest
 	PanicIfUserError(ginCtx.Bind(&userReq))
 	// 从gin.Key中取出服务实例
@@ -24,6 +33,27 @@ func UserRegister(ginCtx *gin.Context) {
 		Msg:    e.GetMsg(uint(userResp.Code)),
 	}
 	ginCtx.JSON(http.StatusOK, r)
+}
+*/
+
+func UserRegister(ginCtx *gin.Context) {
+	var userReq service.UserRequest
+	PanicIfUserError(ginCtx.ShouldBindBodyWith(&userReq, binding.JSON))
+	var r RegisterRequest
+	err := ginCtx.ShouldBindBodyWith(&r, binding.JSON) //.(service.UserServiceClient)
+	if err != nil {
+		fmt.Println("register failed")
+		ginCtx.JSON(http.StatusOK, gin.H{"error_code": 21,
+			"message":   "empty or wriong params",
+			"reference": err.Error()})
+		return
+	}
+
+	fmt.Println("register success")
+	ginCtx.JSON(http.StatusOK, gin.H{"error_code": 0,
+		"message":   "success",
+		"reference": "ok"})
+
 }
 
 // 用户登录
